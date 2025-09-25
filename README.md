@@ -78,8 +78,7 @@ venv\Scripts\activate       # Windows
 4. Install Dependencies
 Install required Python packages:
 
-bash
-Copy code
+
 pip install -r requirements.txt
 Dependencies:
 
@@ -91,21 +90,14 @@ scipy – for signal processing
 
 Tip: If pip is not installed, use:
 
-bash
-Copy code
+
 python -m ensurepip --upgrade
 5. Verify Installation
 You can test the installation by running the example script:
 
-bash
-Copy code
-python example.py
-This should print the N3 scoring results for a sample EEG signal.
-
 Usage
 Scoring N3 from EEG
-python
-Copy code
+
 import numpy as np
 from n3_scoring import score_n3_epochs
 
@@ -122,52 +114,7 @@ results = score_n3_epochs(eeg_signal, fs)
 # Print first 10 epochs
 for epoch in results[:10]:
     print(f"Epoch {epoch['epoch']}: Stage={epoch['stage']}, SWA={epoch['swa_percent']:.1f}%")
-Methodology
-Signal Quality Check – Rejects flat or noisy EEG epochs.
 
-FIR Bandpass Filtering (0.5–2 Hz) – Isolates slow waves.
-
-Zero-Crossing Detection – Finds candidate waves between consecutive zero crossings.
-
-Wave Criteria – Each candidate wave must satisfy:
-
-Amplitude ≥ 75 µV
-
-Duration between 0.5–2 sec
-
-Contains both positive and negative peaks
-
-SWA Calculation – Total duration of valid slow waves / epoch duration × 100.
-
-Epoch Scoring – Epoch classified as:
-
-N3 if SWA ≥ 20%
-
-Not N3 otherwise
-
-Output
-Each epoch is returned as a dictionary:
-
-json
-Copy code
-{
-  "epoch": 0,
-  "stage": "N3",
-  "swa_percent": 25.3
-}
-epoch: Epoch index (0-based)
-
-stage: "N3" if SWA ≥ 20%, otherwise "Not N3"
-
-swa_percent: Percentage of the epoch occupied by slow waves
-
-Example Output
-yaml
-Copy code
-Epoch 0: Stage=N3, SWA=25.3%
-Epoch 1: Stage=N3, SWA=22.1%
-Epoch 2: Stage=Not N3, SWA=12.7%
-...
 References
 American Academy of Sleep Medicine (AASM) Manual for the Scoring of Sleep and Associated Events, 2017
 
